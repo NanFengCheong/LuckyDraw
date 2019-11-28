@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckyDraw", "LuckyDraw\LuckyDraw.csproj", "{8E1D3EE9-1F15-430B-8A44-A1AC4B99AC33}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LuckDraw.XUnitTest", "LuckDraw.XUnitTest\LuckDraw.XUnitTest.csproj", "{6DDCBEC8-CEC9-438D-A6E1-5D89CB7EB461}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8E1D3EE9-1F15-430B-8A44-A1AC4B99AC33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E1D3EE9-1F15-430B-8A44-A1AC4B99AC33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E1D3EE9-1F15-430B-8A44-A1AC4B99AC33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E1D3EE9-1F15-430B-8A44-A1AC4B99AC33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DDCBEC8-CEC9-438D-A6E1-5D89CB7EB461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DDCBEC8-CEC9-438D-A6E1-5D89CB7EB461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DDCBEC8-CEC9-438D-A6E1-5D89CB7EB461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DDCBEC8-CEC9-438D-A6E1-5D89CB7EB461}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C918C77-74A9-4634-9491-F9C26AF73D5B}
+	EndGlobalSection
+EndGlobal

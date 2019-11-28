@@ -1,0 +1,21 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "2019 GSC Annual Dinner",
+    "scope": "/",
+    "display": "fullscreen",
+    "start_url": "https://2019gscannualdinner.azurewebsites.net/vip",
+    "short_name": "2019 GSC Annual",
+    "theme_color": "transparent",
+    "description": "",
+    "orientation": "potrait",
+    "background_color": "transparent",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "/images/favicon.ico",
+            "sizes": "16x16 32x32 48x48 64x64"
+        }
+    ]
+}

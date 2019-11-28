@@ -1,0 +1,75 @@
+﻿@page "/multiprizedraw"
+@inject IJSRuntime JSRuntime;
+@inject LuckyDrawService LuckyDrawService
+@using BlazorState
+@inherits BlazorStateComponent
+
+<div class="content row align-items-center justify-content-center">
+    <div class="col-md-12 col-lg-12 col-xl-10">
+        <div @ref="card" class="mat-elevation-z5 m-4 p-4 multi-lucky-draw-card">
+            <div>
+                <MatHeadline4>Congratulations</MatHeadline4>
+            </div>
+            @foreach (var i in new int[] { 0, 2, 4, 6, 8 })
+            {
+            <div class="row mt-2 my-sm-1 my-md-2">
+                <div class="col text-center mx-4 ">
+                    <span style="font-size:2.5rem" class="multi-prize-name" data-count="@i"><b>#@LuckyDrawState.nextPrizes[i].PrizeName </b></span>
+                    <span id="winnerWwid-@i" class="multi-winner-wwid" style="font-size:2.5rem">--------</span>
+                    <h4 id="winnerName-@i" class="multi-winner-name">-</h4>
+                </div>
+                <div class="col text-center mx-4">
+                    <span style="font-size:2.5rem" class="multi-prize-name" data-count="@(i+1)"><b>#@LuckyDrawState.nextPrizes[i + 1].PrizeName </b></span>
+                    <span id="winnerWwid-@(i+1)" class="multi-winner-wwid" style="font-size:2.5rem">--------</span>
+                    <h4 id="winnerName-@(i+1)" class="multi-winner-name">-</h4>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+<button id="StartMultiLuckyDraw" type="button" style="display: none;" @onclick="StartMultiLuckyDraw">Client</button>
+<button id="SetMultiPrizeWinner" type="button" style="display: none;" @onclick="SetMultiPrizeWinner">Client</button>
+
+@code
+        {
+    LuckyDrawState LuckyDrawState = new LuckyDrawState();
+    private Helper helper;
+    private ElementReference card;
+    protected override async Task OnInitializedAsync()
+    {
+        helper = new Helper(JSRuntime, LuckyDrawService, Mediator);
+        LuckyDrawState.nextPrizes = await LuckyDrawService.GetNextPrizeAsync(10);
+        await Task.Delay(5000);
+        StartMultiLuckyDraw();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await helper.RunNormalAnimation();
+        }
+    }
+
+    private async void StartMultiLuckyDraw()
+    {
+        await Task.Delay(1300);
+        LuckyDrawState.ResetLuckyDrawResult();
+        LuckyDrawState.result = await helper.StartMultiLuckyDraw();
+    }
+
+    private async void SetMultiPrizeWinner()
+    {
+        if (LuckyDrawState?.result?.Winners?.Count > 0)
+        {
+            LuckyDrawState.nextPrizes = await helper.SetMultiPrizeWinner(LuckyDrawState);
+            LuckyDrawState.ResetLuckyDrawResult();
+        }
+    }
+
+    public async Task StartAnimation(ElementReference element)
+    {
+        await JSRuntime.InvokeVoidAsync("startElementAnimation", element, "flip-in-ver-right");
+    }
+}

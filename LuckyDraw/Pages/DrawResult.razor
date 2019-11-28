@@ -1,0 +1,120 @@
+﻿@page "/drawresult"
+@inject IJSRuntime JSRuntime;
+@inject LuckyDrawService LuckyDrawService
+
+<MatHeadline3>Draw Result</MatHeadline3>
+<MatCheckbox @bind-Checked="@IsShowOnlyUnCollected" Label="Show only uncollected"></MatCheckbox>
+<MatCheckbox @bind-Checked="@IsShowDrawTime" Label="Show draw time"></MatCheckbox>
+<div>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Prize</th>
+                <th>Name</th>
+                @if (IsShowDrawTime)
+            {
+                <th>Draw Time</th>
+            }
+                <th>Collected</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prize in prizes)
+        {
+            <tr>
+                <td>@prize.PrizeName</td>
+                <td>@(prize.Employee.Name + "(" + @prize.WWID + ")")</td>
+                @if (IsShowDrawTime)
+                {
+                <td>@prize.DrawTime.Value.DateTime</td>
+                }
+                @if (@prize.IsCollected)
+                {
+                <MatTooltip Tooltip="@prize.CollectTime.Value.DateTime.ToString()">
+                    <MatCheckbox RefBack="@context" Checked="@prize.IsCollected" Disabled="true">Collected</MatCheckbox>
+                </MatTooltip>
+                }
+                else
+                {
+                <MatButton @onclick="@(() => OpenDialog(prize))" Raised="true">Collect</MatButton>
+                }
+            </tr>
+
+        }
+        </tbody>
+    </table>
+</div>
+
+@if (CurrentPrize != null)
+{
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <MatDialogTitle>Confirm</MatDialogTitle>
+    <MatDialogContent>
+        <p>Collect Prize @CurrentPrize.PrizeName ?</p>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton @onclick="OkClick">OK</MatButton>
+        <MatButton OnClick="@(e=> { dialogIsOpen = false; })">Cancel</MatButton>
+    </MatDialogActions>
+</MatDialog>
+}
+
+@code {
+    private List<Prize>
+    prizes;
+    bool dialogIsOpen = false;
+    Prize CurrentPrize;
+
+    bool isShowOnlyUnCollected = true;
+    bool isShowDrawTime = false;
+
+    public bool IsShowOnlyUnCollected
+    {
+        get { return isShowOnlyUnCollected; }
+        set
+        {
+            isShowOnlyUnCollected = value;
+            OnInitializedAsync();
+            StateHasChanged();
+        }
+    }
+
+    public bool IsShowDrawTime
+    {
+        get { return isShowDrawTime; }
+        set
+        {
+            isShowDrawTime = value;
+            //OnInitializedAsync();
+            StateHasChanged();
+        }
+    }
+
+    protected async void OpenDialog(Prize Prize)
+    {
+        CurrentPrize = Prize;
+        dialogIsOpen = true;
+
+    }
+
+    protected async void OkClick()
+    {
+        if (CurrentPrize != null)
+        {
+            await SetPrizeCollected(CurrentPrize.PrizeID);
+        }
+        dialogIsOpen = false;
+        CurrentPrize = null;
+        OnInitializedAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        prizes = (await LuckyDrawService.GetWinners()).Where(w => !isShowOnlyUnCollected || !isShowOnlyUnCollected == w.IsCollected).ToList();
+    }
+
+    protected async Task SetPrizeCollected(int prizeId)
+    {
+        await LuckyDrawService.SetPrizeCollected(prizeId);
+    }
+}

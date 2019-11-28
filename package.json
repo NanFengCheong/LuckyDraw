@@ -1,0 +1,23 @@
+{
+  "name": "LuckyDraw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NanFengCheong/LuckyDraw.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NanFengCheong/LuckyDraw/issues"
+  },
+  "homepage": "https://github.com/NanFengCheong/LuckyDraw#readme",
+  "dependencies": {
+    "@microsoft/signalr": "^3.0.0"
+  }
+}

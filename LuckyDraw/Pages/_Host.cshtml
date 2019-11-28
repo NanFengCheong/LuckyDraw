@@ -1,0 +1,82 @@
+﻿@page "/"
+@namespace LuckyDraw.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using EmbeddedBlazorContent;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2019 GSC Annual Dinner</title>
+    <base href="~/" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="~/css/animista-all.css" rel="stylesheet" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        .bg-sweet-morning {
+            background: linear-gradient(to bottom, #FFC371, #FF5F6D);
+        }
+
+        body {
+            font-family: 'Noto Sans', sans-serif;
+            font-size: larger;
+        }
+    </style>
+
+    @Html.EmbeddedBlazorContent()
+</head>
+<body id="body" class="bg-light">
+    <canvas class="background"></canvas>
+    <app>
+        @(await Html.RenderComponentAsync<App>(RenderMode.ServerPrerendered))
+    </app>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.3/particles.js"></script>
+    <script type="module" src="~/countUp.js"></script>
+    <script src="~/signalr.js"></script>
+    <script src="_framework/blazor.server.js"></script>
+    <script type="module" src="~/main.js"></script>
+
+    <script>
+        var wait = ms => new Promise((r, j) => setTimeout(r, ms))
+        var failed = false;
+        if (location.origin.indexOf('localhost') > 0) {
+            async function fetchAsync() {
+                try {
+                    let res = await fetch(location.origin) // ping local server
+                    //if failed before and now sucess then reload page
+                    if (failed && res.status === 200) {
+                        failed = false;
+                        location.reload();
+                    }
+                }
+                catch (e) {
+                    failed = true;
+                    await wait(200);
+                    console.log("failed" + e)
+                }
+            }
+            async function Pooling() {
+                while (true) {
+                    fetchAsync();
+                    await wait(200);
+                }
+            }
+            //Pooling();
+        }
+
+        window.connection = new signalR.HubConnectionBuilder()
+            .withUrl("/LuckyDrawHub")
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
+        window.connection.start().then(function () {
+            console.log("connected");
+            window.loadSignalRfunctions();
+        });
+    </script>
+</body>
+</html>

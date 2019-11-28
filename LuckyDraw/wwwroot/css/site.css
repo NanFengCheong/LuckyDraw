@@ -1,0 +1,182 @@
+@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, #1a2980, #0b9492);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bolder;
+}
+
+.bg-skyline {
+    background: #74ebd5; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #ACB6E5, #74ebd5); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #ACB6E5, #74ebd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.lucky-draw-card {
+    min-width: 52rem;
+    min-height: 40rem;
+    height: 60vh;
+    max-height: 60rem;
+    border-radius: 2rem;
+    margin-bottom: 4rem;
+}
+
+.multi-lucky-draw-card {
+    min-width: 50rem;
+    min-height: 85vh;
+    height: 100%;
+    border-radius: 2rem;
+    margin-bottom: 4rem;
+    background: linear-gradient(to top, #ACB6E5, #74ebd5);
+    animation: flip-in-ver-right 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@media only screen and (min-width : 768px) {
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width : 1500px) {
+}
+
+#winnerWwid {
+    line-height: 9rem;
+    font-size: 9rem;
+    font-weight: bolder;
+    letter-spacing: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
+    margin-left: 1rem;
+    background: linear-gradient(to right, #360033, #0b8793);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bolder;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+}
+
+app {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-row {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    flex: 1;
+}
+
+    .main .top-row {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #d6d5d5;
+        justify-content: flex-start;
+    }
+
+        .main .top-row > a {
+            margin-left: 1.5rem;
+        }
+
+.content {
+    height: calc(100vh - 56px);
+}
+
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 767.98px) {
+    .main .top-row {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    app {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .main .top-row {
+        position: sticky;
+        top: 0;
+    }
+
+    .main > div {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .sidebar .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+
+.multi-prize-name {
+    animation: tracking-in-expand-fwd 2s cubic-bezier(0.215, 0.610, 0.355, 1.000) 1.2s both;
+}
+
+.multi-winner-wwid {
+}
+
+.multi-winner-name {
+    /*animation: tracking-in-contract-bck 2s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;*/
+}
+
+.tracking-in-expand {
+    animation: tracking-in-expand 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+.tracking-in-contract-bck {
+    animation: tracking-in-contract-bck 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+.tracking-in-expand-fwd {
+    animation: tracking-in-expand-fwd 0.8s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+}
+
+.text-focus-in {
+    animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+.flip-in-ver-right {
+    animation: flip-in-ver-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+.flip-2-hor-top-1 {
+    animation: flip-2-hor-top-1 0.5s cubic-bezier(0.455, 0.030, 0.515, 0.955) both;
+}
+
+.wobble-hor-bottom {
+    animation: wobble-hor-bottom 0.8s infinite both;
+}
+
+.vibrate-1 {
+    animation: vibrate-1 0.9s linear infinite both;
+}

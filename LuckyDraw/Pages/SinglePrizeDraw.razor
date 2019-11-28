@@ -1,0 +1,69 @@
+﻿@page "/singleprizedraw"
+@inject IJSRuntime JSRuntime;
+@inject LuckyDrawService LuckyDrawService
+@using BlazorState
+@inherits BlazorStateComponent
+
+<div class="content row align-items-center justify-content-center">
+    <div class="col-md-12 col-lg-10 col-xl-8">
+        <div class="mat-elevation-z5 m-4 p-4 bg-sweet-morning lucky-draw-card">
+            <div>
+                <MatHeadline3 Style="color:#6d6d6d">Grand Prizes</MatHeadline3>
+            </div>
+            <div class="row align-items-center" style="margin-top: 3rem">
+                <div class="col">
+                    <div class="text-center mt-5">
+                        <p @ref="SingleWinnerPrize" class="mat mat-h1 mt-3 mb-4">Prize <b>#@LuckyDrawState.nextPrize.PrizeName</b></p>
+                        <div class="mt-5">
+                            <p id="winnerWwid" class="mat mat-h1"></p>
+                            <p id="winnerName" @ref="WinnerName" class="mat mat-h2"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button id="StartSingleLuckyDraw" type="button" style="display: none;" @onclick="StartSingleLuckyDraw">Client</button>
+<button id="SetSinglePrizeWinner" type="button" style="display: none;" @onclick="SetSinglePrizeWinner">Client</button>
+@code
+{
+    LuckyDrawState LuckyDrawState = new LuckyDrawState();
+    private Helper helper;
+    private ElementReference SingleWinnerPrize;
+    private ElementReference WinnerName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        helper = new Helper(JSRuntime, LuckyDrawService, Mediator);
+        LuckyDrawState.nextPrize = await helper.GetNextPrize();
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await helper.RunNormalAnimation();
+            await JSRuntime.InvokeVoidAsync("setAnimationClass", SingleWinnerPrize, "tracking-in-expand-fwd");
+        }
+    }
+
+    private async Task StartSingleLuckyDraw()
+    {
+        await JSRuntime.InvokeVoidAsync("setAnimationClass", SingleWinnerPrize, "wobble-hor-bottom", 5000);
+        LuckyDrawState.ResetLuckyDrawResult();
+        LuckyDrawState.result = await helper.StartSingleLuckyDrawResult();
+        await JSRuntime.InvokeVoidAsync("setAnimationClass", WinnerName, "tracking-in-contract-bck");
+
+    }
+
+    private async Task SetSinglePrizeWinner()
+    {
+        if (LuckyDrawState != null && LuckyDrawState.result != null && LuckyDrawState.result.Winner != null)
+        {
+            LuckyDrawState.nextPrize = await helper.SetSinglePrizeWinner(LuckyDrawState);
+            LuckyDrawState.ResetLuckyDrawResult();
+        }
+    }
+}

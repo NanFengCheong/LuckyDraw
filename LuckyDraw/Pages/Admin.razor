@@ -1,0 +1,64 @@
+﻿@page "/admin"
+@inject IJSRuntime JSRuntime
+@inject IMatToaster Toaster
+
+<div class="content row align-items-center justify-content-center">
+    <div class="col-sm-12 col-lg-8 col-xl-6">
+        <div class="mat-elevation-z5 p-1">
+            <div>
+                <MatHeadline5>
+                    Admin
+                </MatHeadline5>
+            </div>
+            <div class="row align-items-center">
+                <div class="col">
+                    <MatTabGroup>
+                        <MatTab Label="Multi">
+                            <div class="d-flex flex-column align-items-center">
+                                <MatButton @onclick="StartMultiLuckyDraw" Raised="true" Class="m-4" Style="height:10vh">DRAW / REDRAW</MatButton>
+                                <MatButton @onclick="SetMultiPrizeWinner" Raised="true" Class="m-4" Style="height:10vh">SET WINNERS</MatButton>
+                            </div>
+                        </MatTab>
+                        <MatTab Label="Single">
+                            <div class="d-flex flex-column align-items-center">
+                                <MatButton @onclick="StartSingleLuckyDraw" Raised="true" Class="m-4" Style="height:10vh">DRAW / REDRAW</MatButton>
+                                <MatButton @onclick="SetSinglePrizeWinner" Raised="true" Class="m-4" Style="height:10vh">SET WINNER</MatButton>
+                            </div>
+                        </MatTab>
+                    </MatTabGroup>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected void StartSingleLuckyDraw()
+    {
+        sendButtonEvent("StartSingleLuckyDraw");
+        Toaster.Add("StartSingleLuckyDraw", MatToastType.Success);
+    }
+
+    protected void SetSinglePrizeWinner()
+    {
+        sendButtonEvent("SetSinglePrizeWinner");
+        Toaster.Add("SetSinglePrizeWinner", MatToastType.Success);
+    }
+
+    protected void StartMultiLuckyDraw()
+    {
+        sendButtonEvent("StartMultiLuckyDraw");
+        Toaster.Add("StartMultiLuckyDraw", MatToastType.Success);
+    }
+
+    protected void SetMultiPrizeWinner()
+    {
+        sendButtonEvent("SetMultiPrizeWinner");
+        Toaster.Add("SetMultiPrizeWinner", MatToastType.Success);
+    }
+
+    protected void sendButtonEvent(string name)
+    {
+        JSRuntime.InvokeVoidAsync("sendButtonEvent", name);
+    }
+}
